@@ -1,17 +1,17 @@
-# Ezz BOIII ☄️: Call of Duty® Black Ops III Client
+# Swifly ☄️: Call of Duty® Black Ops III Client
 
-[![github](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/Ezz-lol/boiii-free)
+[![github](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/lukasbonthy/boiii-client)
 
 ---
 
 > [!NOTE]
-> Feel free to open up Pull requests 😑
+> Feel free to open up Pull requests.
 
 ---
 
 ## Table of Contents
 
-- [About BOIII](#about-boiii)
+- [About Swifly](#about-swifly)
 - [Client Download](#client-download)
 - [Prerequisites](#prerequisites)
 - [Install Instructions](#install-instructions)
@@ -30,32 +30,32 @@
 
 ---
 
-## About BOIII
+## About Swifly
 
-BOIII is a free, community-driven modification for Call of Duty: Black Ops III that enhances the multiplayer and zombies experience. BOIII lets you jump in and play!
+Swifly is a free, community-driven modification for Call of Duty: Black Ops III that enhances the multiplayer and zombies experience. Swifly lets you jump in and play!
 
 **Key Features:**
-- 🌐 Cross-platform server browser
-- 🎮 Full multiplayer & zombies support
-- 🗺️ Custom maps and mods support
-- 🔧 Dedicated server hosting
-- 🎨 Steam Workshop integration
+- Cross-platform server browser
+- Full multiplayer & zombies support
+- Custom maps and mods support
+- Dedicated server hosting
+- Steam Workshop integration
 
 ---
 
 ## Client Download
 
-**Latest Release:** [Download BOIII Client](https://github.com/Ezz-lol/boiii-free/releases/latest)
+**Latest Release:** [Download Swifly Client](https://github.com/lukasbonthy/boiii-client/releases/latest)
 
 **Available Downloads:**
-- `boiii.exe` - Main BOIII client executable
-- `BOIII-Full.zip` - Complete package with all files
+- `Swifly.exe` - Main Swifly client executable
+- `Swifly-Full.zip` - Complete package with all files
 - Source code available on GitHub
 
 **Quick Links:**
-- 📖 [Full Installation Guide](https://forum.ezz.lol/topic/5/bo3-guide)
-- 💬 [Discord Community](https://dc.ezz.lol)
-- 🐛 [Report Issues](https://github.com/Ezz-lol/boiii-free/issues)
+- [Full Installation Guide](https://forum.ezz.lol/topic/5/bo3-guide)
+- [Discord Community](https://dc.ezz.lol)
+- [Report Issues](https://github.com/lukasbonthy/boiii-client/issues)
 
 ---
 
@@ -70,10 +70,10 @@ BOIII is a free, community-driven modification for Call of Duty: Black Ops III t
 
 ## Install Instructions
 
-1. **Download** the latest `BOIII.exe` from [Releases](https://github.com/ezz-boiii/boiii/releases/latest)
+1. **Download** the latest `Swifly.exe` from [Releases](https://github.com/lukasbonthy/boiii-client/releases/latest)
 2. **Place** the executable in your Call of Duty: Black Ops III game directory
-3. **Run** `BOIII.exe`
-4. **Play!** 🎮
+3. **Run** `Swifly.exe`
+4. **Play!**
 
 > [!TIP]
 > The default Steam installation path is usually:
@@ -83,9 +83,9 @@ BOIII is a free, community-driven modification for Call of Duty: Black Ops III t
 
 ## Where Can I Get the Game?
 
-### Option 1: Steam 
-Purchase and download from [Steam Store](https://store.steampowered.com/app/311210/Call_of_Duty_Black_Ops_III/) 💰 \
-If you struggle with this step, join our [Discord](https://dc.ezz.lol) and ask for help!
+### Option 1: Steam
+Purchase and download from [Steam Store](https://store.steampowered.com/app/311210/Call_of_Duty_Black_Ops_III/).
+
 ---
 
 ## Loading Mods & Custom Maps
@@ -93,15 +93,14 @@ If you struggle with this step, join our [Discord](https://dc.ezz.lol) and ask f
 > [!TIP]
 > **Default Workshop Location (Steam):**
 > `C:/Program Files (x86)/Steam/steamapps/workshop/content/311210/`
-> 
-> **BOIII comes with a built-in Workshop Downloader** - see the [Workshop Downloader](#workshop-downloader) section!
+>
+> **Swifly comes with a built-in Workshop Downloader** - see the [Workshop Downloader](#workshop-downloader) section.
 
 **Installation Steps:**
 
 1. **Download Mods/Maps**
-   - Use the built-in BOIII Workshop Downloader
-   - Or copy from your Steam workshop folder (if you own the game)
-   - Or use external workshop downloaders
+   - Use the built-in Swifly Workshop Downloader for content you are permitted to use
+   - Or copy from your Steam workshop folder
 
 2. **Create Folders** (if they don't exist):
    ```
@@ -118,7 +117,7 @@ If you struggle with this step, join our [Discord](https://dc.ezz.lol) and ask f
      - Example: `usermaps/zm_castle/zone/`
      - The folder structure should be: `usermaps/[MAP_NAME]/zone/`
 
-4. **Launch Ezz BOIII** and select your mod/map from the menu! 🎮
+4. **Launch Swifly** and select your mod/map from the menu.
 
 > [!IMPORTANT]
 > **For Workshop Downloads from Steam:**
@@ -136,18 +135,15 @@ If you struggle with this step, join our [Discord](https://dc.ezz.lol) and ask f
 
 ## Workshop Downloader
 
-**BOIII has a built-in Steam Workshop Downloader!** 🎉
+**Swifly has a built-in Steam Workshop Downloader.**
 
-You can download Steam Workshop content directly through the BOIII client without needing Steam ownership.
+Use Swifly only with a legally owned copy of the game and content you are permitted to access.
 
 **How to use:**
-1. Launch `boiii.exe`
+1. Launch `Swifly.exe`
 2. Navigate to the Workshop Downloader section
 3. Enter the Workshop ID or URL
-4. Download directly to your game folder
-
-**External Tool (Alternative):**
-If you prefer a standalone tool, check out [BOIIIWD by faroukbmiled](https://github.com/faroukbmiled/BOIIIWD)
+4. Download to your game folder
 
 **Finding Workshop IDs:**
 - Go to any Steam Workshop item page
@@ -158,7 +154,7 @@ If you prefer a standalone tool, check out [BOIIIWD by faroukbmiled](https://git
 
 ## Command Line Arguments
 
-Launch BOIII with these arguments for extra features:
+Launch Swifly with these arguments for extra features:
 
 | Argument | Description |
 |:---------|:------------|
@@ -171,7 +167,7 @@ Launch BOIII with these arguments for extra features:
 | `-port XXXX` | Set server port (default: 27017) |
 | `-launch` | Start the game immediately, skipping some launcher UI and pre-checks |
 | `-noupdate` | Disable automatic updates (not recommended) |
-| `-update` | Force enable updates (including host binary in debug builds) |
+| `-update` | Force enable updates, including host binary in debug builds |
 | `-norelaunch` | Skip automatic relaunch after updates |
 | `-headless` | Run in headless mode (no GUI) |
 | `-nopatch` | Disable selected runtime patches |
@@ -184,11 +180,11 @@ Launch BOIII with these arguments for extra features:
 
 **Example:**
 ```bash
-boiii.exe -nointro -console -unsafe-lua
+Swifly.exe -nointro -console -unsafe-lua
 ```
 
 > [!WARNING]
-> The `-unsafe-lua` argument is **required** for certain mods that need to modify the UI, menus, or game scripts (like All-Around Enhancement Mod). Only use this with trusted mods!
+> The `-unsafe-lua` argument is **required** for certain mods that need to modify the UI, menus, or game scripts. Only use this with trusted mods.
 >
 > The `-headless` option may not behave correctly on non-server systems.
 
@@ -198,23 +194,23 @@ boiii.exe -nointro -console -unsafe-lua
 
 ### Requirements
 
-- ✅ [Visual C++ 2015-2022 Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- ✅ Text editor ([VS Code](https://code.visualstudio.com/), [Notepad++](https://notepad-plus-plus.org/), or [Sublime Text](https://www.sublimetext.com/))
-- ✅ Computer or VPS with 24/7 uptime
-- ✅ Decent internet connection (10+ Mbps upload recommended)
-- ✅ Basic technical knowledge
-- ⚠️ Port forwarding access (or see [alternatives](#port-forwarding-alternatives))
+- [Visual C++ 2015-2022 Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- Text editor ([VS Code](https://code.visualstudio.com/), [Notepad++](https://notepad-plus-plus.org/), or [Sublime Text](https://www.sublimetext.com/))
+- Computer or VPS with 24/7 uptime
+- Decent internet connection (10+ Mbps upload recommended)
+- Basic technical knowledge
+- Port forwarding access (or see [alternatives](#port-forwarding-alternatives))
 
 ### Server Setup
 
 **For detailed server setup instructions, check out:**
-🔗 [BO3 Server Installer by framilano](https://github.com/framilano/BlackOps3ServerInstaller)
+[BO3 Server Installer by framilano](https://github.com/framilano/BlackOps3ServerInstaller)
 
 **Quick Steps:**
 
 1. **Download** BO3 Unranked Dedicated Server from Steam (Tools section)
 
-2. **Add BOIII files** to your server directory
+2. **Add Swifly files** to your server directory
 
 3. **Configure server settings:**
    - Edit `zone/dedicated.cfg`
@@ -227,7 +223,7 @@ boiii.exe -nointro -console -unsafe-lua
 
 5. **Launch server:**
    ```bash
-   boiii.exe -dedicated
+   Swifly.exe -dedicated
    ```
 
 6. **Monitor** the console for any errors
@@ -235,9 +231,9 @@ boiii.exe -nointro -console -unsafe-lua
 ### Connecting
 
 **Option 1: Server Browser**
-- Open Ezz BOIII client
+- Open Swifly client
 - Navigate to "Server Browser"
-- Find your server and join!
+- Find your server and join
 
 **Option 2: Direct Connect**
 - Open console (press `~`)
@@ -253,17 +249,17 @@ boiii.exe -nointro -console -unsafe-lua
 
 ### Port Forwarding Alternatives
 
-Don't want to mess with port forwarding? Use these VPN tools to play with friends! 😎
+Don't want to mess with port forwarding? Use these VPN tools to play with friends.
 
 **Recommended Options:**
-- **ZeroTier** (Best for gaming)
-- **Radmin VPN** (Easy setup)
-- **Hamachi** (Classic choice)
+- **ZeroTier**
+- **Radmin VPN**
+- **Hamachi**
 
 **Setup:**
 1. Download and install your chosen VPN tool
 2. Create/join a network
-3. Start your BOIII server
+3. Start your Swifly server
 4. Friends connect using your VPN IP: `/connect VPN_IP:27017`
 
 ---
@@ -315,7 +311,7 @@ zone/zm_zod_patch.ff
 
 ## Compile from Source
 
-Want to build Ezz BOIII yourself? Here's how! 🔨
+Want to build Swifly yourself? Here's how.
 
 ### Prerequisites
 
@@ -324,15 +320,13 @@ Want to build Ezz BOIII yourself? Here's how! 🔨
 - Windows 10/11 SDK
 - [clang-format](https://releases.llvm.org/) (for C/C++ formatting — install via VS "C++ Clang tools" component or standalone LLVM)
 - [StyLua](https://github.com/JohnnyMorganz/StyLua/releases) (for Lua formatting)
-- VS Build Tools ([vs config you can import to quickly get the right ones](https://app.filen.io/#/d/52faaefc-2331-4904-897f-97bc2b36e4f1%23373366412d6a5456715853426253475063347531343161793171796d726d7445))<img width="1128" height="399" alt="image" src="https://github.com/user-attachments/assets/8f3a7a4d-b933-4d47-a193-c67260b96f16" />
-
 
 ### Build Steps
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Ezz-lol/boiii-free.git
-   cd boiii-free
+   git clone https://github.com/lukasbonthy/boiii-client.git
+   cd boiii-client
    ```
 
 2. **Initialize submodules:**
@@ -346,7 +340,7 @@ Want to build Ezz BOIII yourself? Here's how! 🔨
    ```
 
 4. **Open in Visual Studio:**
-   - Open `boiii.sln`
+   - Open `Swifly.sln`
    - Set configuration to `Release` and platform to `x64`
    - Build the solution (Ctrl+Shift+B)
 
@@ -354,20 +348,19 @@ Want to build Ezz BOIII yourself? Here's how! 🔨
    - Output will be in `build/bin/x64/Release/`
 
 > [!TIP]
-> You can also use `build.bat` to compile directly from the command line!
+> You can also use `build.bat` to compile directly from the command line.
 
 ---
 
 ## Credits
 
-**BOIII Development Team** 💪
-- Developers, contributors, and the entire BOIII community
+**Swifly Development Team**
+- Developers, contributors, and the entire Swifly community
 
 **Special Thanks:**
 - [Likeicareaboutit](https://github.com/Likeicareaboutit) - Steam Workshop Downloader
 - [framilano](https://github.com/framilano) - BO3 Server Installer
-- Everyone in the [BOIII Discord](https://dc.ezz.lol) community! 😎
-
+- Everyone in the Swifly community
 
 ---
 
@@ -383,14 +376,12 @@ This is a non-profit, community-driven project. We do not condone piracy. If you
 
 <p align="center">
   <strong>Join our community!</strong><br>
-  <a href="https://dc.ezz.lol">Discord</a> • 
-  <a href="https://github.com/Ezz-lol/boiii-free">GitHub</a> • 
-  <a href="https://github.com/Ezz-lol/boiii-free/issues">Report Issues</a> •
+  <a href="https://dc.ezz.lol">Discord</a> •
+  <a href="https://github.com/lukasbonthy/boiii-client">GitHub</a> •
+  <a href="https://github.com/lukasbonthy/boiii-client/issues">Report Issues</a> •
   <a href="https://forum.ezz.lol/topic/5/bo3-guide">Installation Guide</a>
 </p>
 
 <p align="center">
-  Made with ❤️ by the BOIII community ☄️
+  Made with ❤️ by the Swifly community ☄️
 </p>
-
-
