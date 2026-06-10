@@ -60,13 +60,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "Ezz"
-            VALUE "FileDescription", "TLS index allocation dll"
+            VALUE "CompanyName", "Swifly"
+            VALUE "FileDescription", "Swifly helper component"
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "InternalName", "TLS DLL"
+            VALUE "InternalName", "Swifly helper"
             VALUE "LegalCopyright", "All rights reserved."
             VALUE "OriginalFilename", "tlsdll.dll"
-            VALUE "ProductName", "tlsdll"
+            VALUE "ProductName", "Swifly"
             VALUE "ProductVersion", "1.0.0.0"
         END
     END
@@ -97,4 +97,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
