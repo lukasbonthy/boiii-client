@@ -4,6 +4,7 @@
 #include "game/game.hpp"
 #include "scheduler.hpp"
 
+#include <utils/flags.hpp>
 #include <utils/hook.hpp>
 #include <utils/io.hpp>
 #include <utils/string.hpp>
@@ -13,6 +14,24 @@ namespace {
 std::atomic_bool dvar_write_scheduled{false};
 bool initial_config_read = false;
 utils::hook::detour dvar_set_variant_hook;
+
+bool vanilla_mode_enabled() { return utils::flags::has_flag("vanilla"); }
+
+bool should_save_vanilla_dvar(const char *name) {
+  if (!name) {
+    return false;
+  }
+
+  const std::string string_name{name};
+  return string_name == "cg_unlockall_loot" ||
+         string_name == "cg_unlockall_purchases" ||
+         string_name == "cg_unlockall_attachments" ||
+         string_name == "cg_unlockall_camos_and_reticles" ||
+         string_name == "cg_unlockall_calling_cards" ||
+         string_name == "cg_unlockall_specialists_outfits" ||
+         string_name == "cg_unlockall_cac_slots" ||
+         string_name == "all_ee_completed";
+}
 
 void dvar_for_each_name_stub(void (*callback)(const char *)) {
   for (int i = 0; i < *game::g_dvarCount; ++i) {
@@ -103,6 +122,7 @@ bool is_archive_dvar(const game::dvar_t *dvar) {
 
 void write_archive_dvars() {
   const auto path = get_config_file_path();
+  const auto vanilla_mode = vanilla_mode_enabled();
 
   std::string config_buffer;
 
@@ -115,8 +135,11 @@ void write_archive_dvars() {
     }
 
     const auto name = dvar->debugName;
-    const auto value = game::Dvar_DisplayableValue(dvar);
+    if (vanilla_mode && !should_save_vanilla_dvar(name)) {
+      continue;
+    }
 
+    const auto value = game::Dvar_DisplayableValue(dvar);
     config_buffer.append(utils::string::va("set %s \"%s\"\n", name, value));
   }
 
