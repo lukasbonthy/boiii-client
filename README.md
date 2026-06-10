@@ -18,6 +18,7 @@
 - [Loading Mods & Custom Maps](#loading-mods--custom-maps)
 - [Workshop Downloader](#workshop-downloader)
 - [Command Line Arguments](#command-line-arguments)
+- [Vanilla Mode](#vanilla-mode)
 - [Hosting a Dedicated Server](#hosting-a-dedicated-server)
 - [Zombies Server Setup](#zombies-server-setup)
 - [Compile from Source](#compile-from-source)
@@ -36,6 +37,7 @@ Swifly BOIII is a free, community-driven modification for Call of Duty: Black Op
 - Custom maps and mods support
 - Dedicated server hosting
 - Steam Workshop integration
+- Optional BOIII Vanilla launch mode for campaign/speedrun-friendly behavior
 
 ---
 
@@ -74,13 +76,6 @@ Swifly BOIII is a free, community-driven modification for Call of Duty: Black Op
 > [!TIP]
 > The default Steam installation path is usually:
 > `C:/Program Files (x86)/Steam/steamapps/common/Call of Duty Black Ops III`
-
----
-
-## Where Can I Get the Game?
-
-### Option 1: Steam
-Purchase and download from [Steam Store](https://store.steampowered.com/app/311210/Call_of_Duty_Black_Ops_III/).
 
 ---
 
@@ -154,6 +149,7 @@ Launch Swifly BOIII with these arguments for extra features:
 
 | Argument | Description |
 |:---------|:------------|
+| `-vanilla` | Enable BOIII Vanilla campaign/speedrun-friendly behavior |
 | `-unsafe-lua` | Allow mods to use unsafe Lua functions; only use this with trusted mods |
 | `-dedicated` | Launch as a dedicated server |
 | `-nointro` | Skip intro videos |
@@ -170,19 +166,27 @@ Launch Swifly BOIII with these arguments for extra features:
 | `-plugins` | Load additional plugins from the `plugins/` directory |
 | `-trimlogs` | Trim or rotate old log files on startup |
 | `-keep-launcher` | Keep the launcher process running after starting the game |
-| `-noconsole` | Suppress the external launcher console window |
+| `-noconsole` | Suppress the external console window |
 | `-noratelimit` | Disable rate limiting in dedicated server |
 | `-mitigatepacketspam` | In dedicated server, attempt to reduce unnecessary reliable command packets sent by some custom maps' scripts. Fixes Kowloon and Daybreak client load-in failures. |
 
 **Example:**
 ```bash
-swiflyboiii.exe -nointro -console -unsafe-lua
+swiflyboiii.exe -vanilla -nointro
 ```
 
 > [!WARNING]
 > The `-unsafe-lua` argument is required for certain mods that need to modify the UI, menus, or game scripts. Only use this with trusted mods.
 >
 > The `-headless` option may not behave correctly on non-server systems.
+
+---
+
+## Vanilla Mode
+
+Swifly BOIII includes an optional **Vanilla Mode** inspired by the BOIII Vanilla fork by FugXBL/Ndt. You can select it from the Launch Options dropdown or pass `-vanilla` manually.
+
+Vanilla Mode currently limits archived dvar persistence to BOIII stat/unlock-related dvars, which helps prevent modified/debug dvars from being saved and carried into campaign sessions. This is intended for a cleaner campaign/speedrun-friendly setup while keeping the newer Swifly launcher and workshop features.
 
 ---
 
@@ -345,6 +349,7 @@ Want to build Swifly BOIII yourself? Here is how.
 **Special Thanks:**
 - [Likeicareaboutit](https://github.com/Likeicareaboutit) - Steam Workshop Downloader
 - [framilano](https://github.com/framilano) - BO3 Server Installer
+- [FugXBL/Ndt BOIII Vanilla](https://github.com/FugXBL/boiii-vanilla) - Vanilla mode reference
 - Everyone in the Swifly BOIII community
 
 ---
