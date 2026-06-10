@@ -75,7 +75,7 @@ BEGIN
             VALUE "FileVersion", VERSION_FILE
             VALUE "InternalName", "Swifly"
             VALUE "LegalCopyright", "Copyright (C) 2026 Swifly. All rights reserved."
-            VALUE "OriginalFilename", "Swifly.exe"
+            VALUE "OriginalFilename", "swiflyboiii.exe"
             VALUE "ProductName", "Swifly"
             VALUE "ProductVersion", VERSION_PRODUCT
         END
