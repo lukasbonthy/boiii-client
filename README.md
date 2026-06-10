@@ -1,17 +1,17 @@
-# Swifly ☄️: Call of Duty® Black Ops III Client
+# Swifly BOIII: Call of Duty® Black Ops III Client
 
 [![github](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/lukasbonthy/boiii-client)
 
 ---
 
 > [!NOTE]
-> Feel free to open up Pull requests.
+> Feel free to open pull requests.
 
 ---
 
 ## Table of Contents
 
-- [About Swifly](#about-swifly)
+- [About Swifly BOIII](#about-swifly-boiii)
 - [Client Download](#client-download)
 - [Prerequisites](#prerequisites)
 - [Install Instructions](#install-instructions)
@@ -19,10 +19,6 @@
 - [Workshop Downloader](#workshop-downloader)
 - [Command Line Arguments](#command-line-arguments)
 - [Hosting a Dedicated Server](#hosting-a-dedicated-server)
-  - [Requirements](#requirements)
-  - [Server Setup](#server-setup)
-  - [Connecting](#connecting)
-  - [Port Forwarding Alternatives](#port-forwarding-alternatives)
 - [Zombies Server Setup](#zombies-server-setup)
 - [Compile from Source](#compile-from-source)
 - [Credits](#credits)
@@ -30,13 +26,13 @@
 
 ---
 
-## About Swifly
+## About Swifly BOIII
 
-Swifly is a free, community-driven modification for Call of Duty: Black Ops III that enhances the multiplayer and zombies experience. Swifly lets you jump in and play!
+Swifly BOIII is a free, community-driven modification for Call of Duty: Black Ops III that enhances the multiplayer and zombies experience. Swifly BOIII lets you jump in and play.
 
 **Key Features:**
 - Cross-platform server browser
-- Full multiplayer & zombies support
+- Full multiplayer and zombies support
 - Custom maps and mods support
 - Dedicated server hosting
 - Steam Workshop integration
@@ -45,11 +41,11 @@ Swifly is a free, community-driven modification for Call of Duty: Black Ops III 
 
 ## Client Download
 
-**Latest Release:** [Download Swifly Client](https://github.com/lukasbonthy/boiii-client/releases/latest)
+**Latest Release:** [Download Swifly BOIII Client](https://github.com/lukasbonthy/boiii-client/releases/latest)
 
 **Available Downloads:**
-- `Swifly.exe` - Main Swifly client executable
-- `Swifly-Full.zip` - Complete package with all files
+- `swiflyboiii.exe` - Main Swifly BOIII client executable
+- `SwiflyBOIII-Full.zip` - Complete package with all files
 - Source code available on GitHub
 
 **Quick Links:**
@@ -70,10 +66,10 @@ Swifly is a free, community-driven modification for Call of Duty: Black Ops III 
 
 ## Install Instructions
 
-1. **Download** the latest `Swifly.exe` from [Releases](https://github.com/lukasbonthy/boiii-client/releases/latest)
+1. **Download** the latest `swiflyboiii.exe` from [Releases](https://github.com/lukasbonthy/boiii-client/releases/latest)
 2. **Place** the executable in your Call of Duty: Black Ops III game directory
-3. **Run** `Swifly.exe`
-4. **Play!**
+3. **Run** `swiflyboiii.exe`
+4. **Play**
 
 > [!TIP]
 > The default Steam installation path is usually:
@@ -94,15 +90,15 @@ Purchase and download from [Steam Store](https://store.steampowered.com/app/3112
 > **Default Workshop Location (Steam):**
 > `C:/Program Files (x86)/Steam/steamapps/workshop/content/311210/`
 >
-> **Swifly comes with a built-in Workshop Downloader** - see the [Workshop Downloader](#workshop-downloader) section.
+> **Swifly BOIII comes with a built-in Workshop Downloader** - see the [Workshop Downloader](#workshop-downloader) section.
 
 **Installation Steps:**
 
 1. **Download Mods/Maps**
-   - Use the built-in Swifly Workshop Downloader for content you are permitted to use
+   - Use the built-in Swifly BOIII Workshop Downloader for content you are permitted to use
    - Or copy from your Steam workshop folder
 
-2. **Create Folders** (if they don't exist):
+2. **Create Folders** (if they do not exist):
    ```
    Call of Duty Black Ops III/
      ├─ mods/
@@ -117,7 +113,7 @@ Purchase and download from [Steam Store](https://store.steampowered.com/app/3112
      - Example: `usermaps/zm_castle/zone/`
      - The folder structure should be: `usermaps/[MAP_NAME]/zone/`
 
-4. **Launch Swifly** and select your mod/map from the menu.
+4. **Launch Swifly BOIII** and select your mod/map from the menu.
 
 > [!IMPORTANT]
 > **For Workshop Downloads from Steam:**
@@ -128,19 +124,19 @@ Purchase and download from [Steam Store](https://store.steampowered.com/app/3112
 
 **Troubleshooting:**
 - If a mod shows "unsafe Lua" warning, launch with `-unsafe-lua` argument
-- If a map doesn't load, verify the folder structure matches `[type]/[name]/zone/`
+- If a map does not load, verify the folder structure matches `[type]/[name]/zone/`
 - Check [forum.ezz.lol](https://forum.ezz.lol/topic/5/bo3-guide) for detailed guides
 
 ---
 
 ## Workshop Downloader
 
-**Swifly has a built-in Steam Workshop Downloader.**
+**Swifly BOIII has a built-in Steam Workshop Downloader.**
 
-Use Swifly only with a legally owned copy of the game and content you are permitted to access.
+Use Swifly BOIII only with a legally owned copy of the game and content you are permitted to access.
 
 **How to use:**
-1. Launch `Swifly.exe`
+1. Launch `swiflyboiii.exe`
 2. Navigate to the Workshop Downloader section
 3. Enter the Workshop ID or URL
 4. Download to your game folder
@@ -154,11 +150,11 @@ Use Swifly only with a legally owned copy of the game and content you are permit
 
 ## Command Line Arguments
 
-Launch Swifly with these arguments for extra features:
+Launch Swifly BOIII with these arguments for extra features:
 
 | Argument | Description |
 |:---------|:------------|
-| `-unsafe-lua` | Allow mods to use unsafe Lua functions (required for some mods like All-Around Enhancement) |
+| `-unsafe-lua` | Allow mods to use unsafe Lua functions; only use this with trusted mods |
 | `-dedicated` | Launch as a dedicated server |
 | `-nointro` | Skip intro videos |
 | `-windowed` | Launch in windowed mode |
@@ -180,11 +176,11 @@ Launch Swifly with these arguments for extra features:
 
 **Example:**
 ```bash
-Swifly.exe -nointro -console -unsafe-lua
+swiflyboiii.exe -nointro -console -unsafe-lua
 ```
 
 > [!WARNING]
-> The `-unsafe-lua` argument is **required** for certain mods that need to modify the UI, menus, or game scripts. Only use this with trusted mods.
+> The `-unsafe-lua` argument is required for certain mods that need to modify the UI, menus, or game scripts. Only use this with trusted mods.
 >
 > The `-headless` option may not behave correctly on non-server systems.
 
@@ -209,29 +205,24 @@ Swifly.exe -nointro -console -unsafe-lua
 **Quick Steps:**
 
 1. **Download** BO3 Unranked Dedicated Server from Steam (Tools section)
-
-2. **Add Swifly files** to your server directory
-
+2. **Add Swifly BOIII files** to your server directory
 3. **Configure server settings:**
    - Edit `zone/dedicated.cfg`
    - Set server name, map rotation, game mode
    - Configure player count and rules
-
 4. **Setup firewall rules:**
    - Allow UDP port 27017 (or your custom port)
    - Allow TCP port 27017 (optional but recommended)
-
 5. **Launch server:**
    ```bash
-   Swifly.exe -dedicated
+   swiflyboiii.exe -dedicated
    ```
-
 6. **Monitor** the console for any errors
 
 ### Connecting
 
 **Option 1: Server Browser**
-- Open Swifly client
+- Open Swifly BOIII client
 - Navigate to "Server Browser"
 - Find your server and join
 
@@ -249,7 +240,7 @@ Swifly.exe -nointro -console -unsafe-lua
 
 ### Port Forwarding Alternatives
 
-Don't want to mess with port forwarding? Use these VPN tools to play with friends.
+Do not want to mess with port forwarding? Use these VPN tools to play with friends.
 
 **Recommended Options:**
 - **ZeroTier**
@@ -259,14 +250,14 @@ Don't want to mess with port forwarding? Use these VPN tools to play with friend
 **Setup:**
 1. Download and install your chosen VPN tool
 2. Create/join a network
-3. Start your Swifly server
+3. Start your Swifly BOIII server
 4. Friends connect using your VPN IP: `/connect VPN_IP:27017`
 
 ---
 
 ## Zombies Server Setup
 
-Hosting Zombies requires additional files that don't come with the dedicated server package.
+Hosting Zombies requires additional files that do not come with the dedicated server package.
 
 ### Required Files
 
@@ -294,7 +285,7 @@ zone/zm_zod_patch.ff
 
 1. **Copy files** from `Call of Duty Black Ops III/zone/` to your server's `zone/` folder
 2. **Repeat** for each map you want to host
-3. **Skip** `.xpak` files (these are textures/sounds that servers don't need)
+3. **Skip** `.xpak` files (these are textures/sounds that servers do not need)
 
 > [!NOTE]
 > If the server crashes on startup, check `console_mp.log` for missing zone files
@@ -311,14 +302,16 @@ zone/zm_zod_patch.ff
 
 ## Compile from Source
 
-Want to build Swifly yourself? Here's how.
+Want to build Swifly BOIII yourself? Here is how.
 
 ### Prerequisites
 
-- [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) (Community Edition is free)
-- [Git](https://git-scm.com/downloads)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) with **Desktop development with C++**
+- MSVC v143 C++ x64/x86 build tools
 - Windows 10/11 SDK
-- [clang-format](https://releases.llvm.org/) (for C/C++ formatting — install via VS "C++ Clang tools" component or standalone LLVM)
+- C++ Clang tools for Windows / clang-cl support
+- [Git](https://git-scm.com/downloads)
+- [clang-format](https://releases.llvm.org/) (for C/C++ formatting)
 - [StyLua](https://github.com/JohnnyMorganz/StyLua/releases) (for Lua formatting)
 
 ### Build Steps
@@ -329,38 +322,30 @@ Want to build Swifly yourself? Here's how.
    cd boiii-client
    ```
 
-2. **Initialize submodules:**
-   ```bash
-   git submodule update --init --recursive
-   ```
-
-3. **Generate project files:**
+2. **Initialize submodules and generate project files:**
    ```bash
    generate.bat
    ```
 
-4. **Open in Visual Studio:**
-   - Open `Swifly.sln`
+3. **Open in Visual Studio:**
+   - Open `build/boiii.sln`
    - Set configuration to `Release` and platform to `x64`
    - Build the solution (Ctrl+Shift+B)
 
-5. **Find your build:**
-   - Output will be in `build/bin/x64/Release/`
-
-> [!TIP]
-> You can also use `build.bat` to compile directly from the command line.
+4. **Find your build:**
+   - Output will be in `build/bin/x64/Release/swiflyboiii.exe`
 
 ---
 
 ## Credits
 
-**Swifly Development Team**
-- Developers, contributors, and the entire Swifly community
+**Swifly BOIII Development Team**
+- Developers, contributors, and the entire Swifly BOIII community
 
 **Special Thanks:**
 - [Likeicareaboutit](https://github.com/Likeicareaboutit) - Steam Workshop Downloader
 - [framilano](https://github.com/framilano) - BO3 Server Installer
-- Everyone in the Swifly community
+- Everyone in the Swifly BOIII community
 
 ---
 
@@ -383,5 +368,5 @@ This is a non-profit, community-driven project. We do not condone piracy. If you
 </p>
 
 <p align="center">
-  Made with ❤️ by the Swifly community ☄️
+  Made with love by the Swifly BOIII community
 </p>
