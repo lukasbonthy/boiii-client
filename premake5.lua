@@ -240,7 +240,7 @@ newaction({
 
 dependencies.load()
 
-workspace("boiii")
+workspace("swiflyboiii")
 if os.host() == "windows" then
   toolset("msc-clangcl")
 else
@@ -330,7 +330,7 @@ project("client")
 kind("WindowedApp")
 language("C++")
 
-targetname("boiii")
+targetname("swiflyboiii")
 
 pchheader("std_include.hpp")
 pchsource("src/client/std_include.cpp")
