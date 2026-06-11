@@ -3,8 +3,9 @@ $ErrorActionPreference = 'Stop'
 $serversApi = 'https://swifly-servers.onrender.com/api/servers'
 
 function Write-Utf8NoBom($Path, $Content) {
+  $fullPath = [System.IO.Path]::GetFullPath($Path)
   $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-  [System.IO.File]::WriteAllText((Resolve-Path $Path), $Content, $utf8NoBom)
+  [System.IO.File]::WriteAllText($fullPath, $Content, $utf8NoBom)
 }
 
 # Brand and simplify the launcher HTML.
@@ -15,7 +16,6 @@ if (Test-Path $htmlPath) {
   $html = $html.Replace('EZZ BOIII', 'Swifly BOIII')
   $html = $html.Replace('Ezz BOIII', 'Swifly BOIII')
   $html = $html.Replace('<span class="title-white title-big">E</span><span class="title-white">ZZ</span>', '<span class="title-white title-big">S</span><span class="title-white">wifly</span>')
-  $html = $html.Replace('<span class="title-orange">BOIII</span>', '<span class="title-orange">BOIII</span>')
   $html = $html.Replace('Call of Duty: Black Ops 3 enhanced with our modifications.', 'Call of Duty: Black Ops 3 enhanced by Swifly BOIII.')
   $html = $html.Replace('Latest (Auto-update)', 'Latest')
   $html = $html.Replace('https://discord.gg/ezz', 'https://discord.gg/swifly')
@@ -355,8 +355,19 @@ void relaunch_and_connect(const std::string &address,
       });
 
 '@
-    $cpp = $cpp.Replace("  window.get_html_frame()->register_callback(`r`n      \"launchGame\",", $callback + "  window.get_html_frame()->register_callback(`r`n      \"launchGame\",")
-    $cpp = $cpp.Replace("  window.get_html_frame()->register_callback(`n      \"launchGame\",", $callback + "  window.get_html_frame()->register_callback(`n      \"launchGame\",")
+    $needleCrLf = @'
+  window.get_html_frame()->register_callback(
+      "launchGame",
+'@
+    $needleLf = $needleCrLf.Replace("`r`n", "`n")
+
+    if ($cpp.Contains($needleCrLf)) {
+      $cpp = $cpp.Replace($needleCrLf, $callback + $needleCrLf)
+    } elseif ($cpp.Contains($needleLf)) {
+      $cpp = $cpp.Replace($needleLf, $callback + $needleLf)
+    } else {
+      throw 'Could not find launchGame callback insertion point.'
+    }
   }
 
   Write-Utf8NoBom $cppPath $cpp
