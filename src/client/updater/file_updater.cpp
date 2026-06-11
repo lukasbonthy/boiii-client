@@ -12,12 +12,12 @@
 #include <utils/compression.hpp>
 #include <utils/string.hpp>
 
-#define UPDATE_SERVER "https://r2.ezz.lol/"
+#define UPDATE_SERVER "https://swifly-servers.onrender.com/"
 
 #define UPDATE_FILE_MAIN UPDATE_SERVER "boiii.json"
 #define UPDATE_FOLDER_MAIN UPDATE_SERVER "boiii/"
 
-#define UPDATE_HOST_BINARY "boiii.exe"
+#define UPDATE_HOST_BINARY "swiflyboiii.exe"
 
 namespace updater {
 namespace {
@@ -109,8 +109,8 @@ file_updater::file_updater(progress_listener &listener,
 
   if (this->process_file_.extension() == ".old") {
     utils::progress_ui::show_error(
-        "Update Error", "You are running from a backup file (boiii.exe.old). "
-                        "Please restore boiii.exe and try again.");
+        "Update Error", "You are running from a backup file (swiflyboiii.exe.old). "
+                        "Please restore swiflyboiii.exe and try again.");
   }
 
   this->delete_old_process_file();
