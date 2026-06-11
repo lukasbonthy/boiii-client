@@ -20,6 +20,26 @@ const utils::nt::library &get_host_library() {
 
   return host_library;
 }
+
+void seed_appdata_from_local_data_folder(const std::filesystem::path &appdata) {
+  std::error_code ec{};
+
+  const auto source_data = std::filesystem::current_path() / "data";
+  const auto target_data = appdata / "data";
+
+  if (!std::filesystem::exists(source_data, ec) ||
+      !std::filesystem::is_directory(source_data, ec)) {
+    return;
+  }
+
+  std::filesystem::create_directories(appdata, ec);
+  ec.clear();
+
+  std::filesystem::copy(source_data, target_data,
+                        std::filesystem::copy_options::recursive |
+                            std::filesystem::copy_options::overwrite_existing,
+                        ec);
+}
 } // namespace
 
 size_t get_base() {
@@ -71,7 +91,9 @@ std::filesystem::path get_appdata_path() {
     auto _ = utils::finally([&path] { CoTaskMemFree(path); });
 
     // Keep using the BOIII cache folder so existing first-launch data is found.
-    return std::filesystem::path(path) / L"boiii";
+    const auto result = std::filesystem::path(path) / L"boiii";
+    seed_appdata_from_local_data_folder(result);
+    return result;
   }();
 
   return appdata_path;
