@@ -21,6 +21,17 @@ const utils::nt::library &get_host_library() {
   return host_library;
 }
 
+std::filesystem::path get_executable_directory() {
+  wchar_t file_name[MAX_PATH] = {};
+  const auto length = GetModuleFileNameW(nullptr, file_name, MAX_PATH);
+
+  if (length == 0 || length == MAX_PATH) {
+    return std::filesystem::current_path();
+  }
+
+  return std::filesystem::path(file_name).parent_path();
+}
+
 bool is_marked_swifly_data_folder(const std::filesystem::path &data_path) {
   std::error_code ec{};
   return std::filesystem::exists(data_path / ".swifly-data", ec) &&
@@ -30,7 +41,7 @@ bool is_marked_swifly_data_folder(const std::filesystem::path &data_path) {
 void seed_appdata_from_local_data_folder(const std::filesystem::path &appdata) {
   std::error_code ec{};
 
-  const auto source_data = std::filesystem::current_path() / "data";
+  const auto source_data = get_executable_directory() / "data";
   const auto target_data = appdata / "data";
 
   if (!std::filesystem::exists(source_data, ec) ||
@@ -105,7 +116,5 @@ std::filesystem::path get_appdata_path() {
   return appdata_path;
 }
 
-std::filesystem::path get_game_path() {
-  return std::filesystem::current_path();
-}
+std::filesystem::path get_game_path() { return get_executable_directory(); }
 } // namespace game
