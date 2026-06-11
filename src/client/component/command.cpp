@@ -5,12 +5,17 @@
 #include <utils/hook.hpp>
 #include <utils/string.hpp>
 #include <utils/memory.hpp>
+#include <utils/http.hpp>
 
 #include <game/game.hpp>
 #include <steam/steam.hpp>
 
+#include <rapidjson/document.h>
+
 namespace command {
 namespace {
+constexpr auto SWIFLY_SERVERS_API = "https://swifly-servers.onrender.com/api/servers";
+
 std::unordered_map<std::string, command_param_function> &get_command_map() {
   static std::unordered_map<std::string, command_param_function> command_map{};
   return command_map;
@@ -21,6 +26,133 @@ get_sv_command_map() {
   static std::unordered_map<std::string, sv_command_param_function>
       command_map{};
   return command_map;
+}
+
+bool is_safe_join_address(const std::string &address) {
+  if (address.empty() || address.size() > 128) {
+    return false;
+  }
+
+  for (const auto c : address) {
+    const auto uc = static_cast<unsigned char>(c);
+    if ((uc >= '0' && uc <= '9') || (uc >= 'a' && uc <= 'z') ||
+        (uc >= 'A' && uc <= 'Z') || c == '.' || c == ':' || c == '-' ||
+        c == '_' || c == '[' || c == ']') {
+      continue;
+    }
+
+    return false;
+  }
+
+  return true;
+}
+
+std::string get_string_member(const rapidjson::Value &object, const char *key) {
+  const auto member = object.FindMember(key);
+  if (member == object.MemberEnd() || !member->value.IsString()) {
+    return {};
+  }
+
+  return member->value.GetString();
+}
+
+int get_int_member(const rapidjson::Value &object, const char *key,
+                   const int fallback = 0) {
+  const auto member = object.FindMember(key);
+  if (member == object.MemberEnd()) {
+    return fallback;
+  }
+
+  if (member->value.IsInt()) {
+    return member->value.GetInt();
+  }
+
+  if (member->value.IsUint()) {
+    return static_cast<int>(member->value.GetUint());
+  }
+
+  if (member->value.IsString()) {
+    return std::atoi(member->value.GetString());
+  }
+
+  return fallback;
+}
+
+bool get_bool_member(const rapidjson::Value &object, const char *key,
+                     const bool fallback = false) {
+  const auto member = object.FindMember(key);
+  if (member == object.MemberEnd()) {
+    return fallback;
+  }
+
+  if (member->value.IsBool()) {
+    return member->value.GetBool();
+  }
+
+  if (member->value.IsString()) {
+    const auto value = utils::string::to_lower(member->value.GetString());
+    return value == "1" || value == "true" || value == "yes";
+  }
+
+  return fallback;
+}
+
+std::optional<std::string> fetch_swifly_join_address() {
+  const auto data = utils::http::get_data(
+      SWIFLY_SERVERS_API,
+      { {"accept", "application/json"}, {"cache-control", "no-cache"} }, {}, 1);
+  if (!data || data->empty()) {
+    return std::nullopt;
+  }
+
+  rapidjson::Document doc;
+  if (doc.Parse(data->c_str()).HasParseError() || !doc.IsArray()) {
+    return std::nullopt;
+  }
+
+  for (const auto &server : doc.GetArray()) {
+    if (!server.IsObject()) {
+      continue;
+    }
+
+    auto address = get_string_member(server, "connectAddr");
+    const auto host = get_string_member(server, "address");
+    const auto port = get_int_member(server, "port", 0);
+    const auto players = get_int_member(server, "players", 0);
+    const auto max_players = get_int_member(server, "maxPlayers", 1);
+    const auto passworded = get_bool_member(server, "passworded", false);
+
+    if (address.empty() && !host.empty() && port > 0) {
+      address = host + ":" + std::to_string(port);
+    }
+
+    if (address.empty() || passworded || players >= max_players) {
+      continue;
+    }
+
+    if (!is_safe_join_address(address)) {
+      continue;
+    }
+
+    return address;
+  }
+
+  return std::nullopt;
+}
+
+void join_swifly_server() {
+  game::Com_Printf(0, 0, "[Swifly] Fetching server list...\n");
+
+  const auto address = fetch_swifly_join_address();
+  if (!address) {
+    game::Com_Printf(0, 0,
+                     "[Swifly] No available Swifly servers were found.\n");
+    return;
+  }
+
+  game::Com_Printf(0, 0, "[Swifly] Joining %s...\n", address->data());
+  const auto command = "connect " + *address + "\n";
+  game::Cbuf_AddText(0, command.data());
 }
 
 void execute_custom_command() {
@@ -185,6 +317,8 @@ struct component final : generic_component {
     // Disable whitelist
     utils::hook::jump(game::select(0x1420EE860, 0x1404F9CD0),
                       update_whitelist_stub);
+
+    command::add("join_swifly_server", join_swifly_server);
   }
 };
 } // namespace command
