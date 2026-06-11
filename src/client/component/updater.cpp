@@ -9,7 +9,8 @@
 
 namespace updater {
 void update() {
-  if (utils::flags::has_flag("noupdate")) {
+  if (utils::flags::has_flag("noupdate") ||
+      !utils::flags::has_flag("update")) {
     return;
   }
 
@@ -27,9 +28,7 @@ void update() {
 
 class component final : public generic_component {
 public:
-  component() {
-    this->update_thread_ = std::thread([this] { update(); });
-  }
+  component() { this->update_thread_ = std::thread([this] { update(); }); }
 
   void pre_destroy() override { join(); }
 
