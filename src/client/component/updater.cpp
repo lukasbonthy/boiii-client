@@ -9,26 +9,15 @@
 
 namespace updater {
 void update() {
-  if (utils::flags::has_flag("noupdate") ||
-      !utils::flags::has_flag("update")) {
-    return;
-  }
-
-  try {
-    run(game::get_appdata_path());
-  } catch (update_cancelled &) {
-    TerminateProcess(GetCurrentProcess(), 0);
-  } catch (const std::exception &e) {
-    utils::progress_ui::show_error("Updater Error", e.what());
-  } catch (...) {
-    utils::progress_ui::show_error("Updater Error",
-                                   "Unknown error occurred during update.");
-  }
+  // The upstream updater pulls from the EZZ/BOIII update server and can replace
+  // this branded Swifly build with the original BOIII client. Keep it disabled
+  // unless/until Swifly has its own update manifest and release channel.
+  return;
 }
 
 class component final : public generic_component {
 public:
-  component() { this->update_thread_ = std::thread([this] { update(); }); }
+  component() = default;
 
   void pre_destroy() override { join(); }
 
