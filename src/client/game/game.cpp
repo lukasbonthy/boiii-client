@@ -12,7 +12,7 @@ const utils::nt::library &get_host_library() {
     utils::nt::library host{};
     if (!host || host == utils::nt::library::get_by_address(get_base)) {
       throw std::runtime_error("Invalid host application - Make sure you place "
-                               "Boiii.exe next to BlackOps3.exe!");
+                               "swiflyboiii.exe next to BlackOps3.exe!");
     }
 
     return host;
@@ -70,8 +70,8 @@ std::filesystem::path get_appdata_path() {
 
     auto _ = utils::finally([&path] { CoTaskMemFree(path); });
 
-    // Ensure proper handling of wide character paths
-    return std::filesystem::path(path) / L"boiii";
+    // Keep Swifly data separate from old BOIII updater/cache files.
+    return std::filesystem::path(path) / L"swiflyboiii";
   }();
 
   return appdata_path;
