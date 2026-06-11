@@ -72,9 +72,9 @@ foreach ($root in $roots) {
 
   Get-ChildItem $root -Recurse -File | Where-Object {
     $extensions -contains $_.Extension.ToLowerInvariant() -and
-    $_.FullName -notmatch '\build\' -and
-    $_.FullName -notmatch '\deps\' -and
-    $_.FullName -notmatch '\third_party\'
+    $_.FullName -notlike '*\build\*' -and
+    $_.FullName -notlike '*\deps\*' -and
+    $_.FullName -notlike '*\third_party\*'
   } | ForEach-Object {
     $path = $_.FullName
     $original = Get-Content $path -Raw
