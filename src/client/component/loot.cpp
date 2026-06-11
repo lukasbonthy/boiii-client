@@ -2,6 +2,7 @@
 #include "loader/component_loader.hpp"
 
 #include <utils/hook.hpp>
+#include <utils/flags.hpp>
 
 #include "command.hpp"
 #include "scheduler.hpp"
@@ -34,9 +35,16 @@ utils::hook::detour liveentitlements_isentitlementactiveforcontroller_hook;
 utils::hook::detour bg_unlockablesgetcustomclasscount_hook;
 utils::hook::detour gscr_isitempurchasedforclientnum_hook;
 
+bool vanilla_mode_enabled() { return utils::flags::has_flag("vanilla"); }
+
+bool block_campaign_unlocks(const game::eModes mode) {
+  return vanilla_mode_enabled() && mode == game::eModes::MODE_CAMPAIGN;
+}
+
 int loot_getitemquantity_stub(const game::ControllerIndex_t controller_index,
                               const game::eModes mode, const int item_id) {
-  if (!dvar_cg_unlockall_loot->current.value.enabled) {
+  if (!dvar_cg_unlockall_loot->current.value.enabled ||
+      block_campaign_unlocks(mode)) {
     return loot_getitemquantity_hook.invoke<int>(controller_index, mode,
                                                  item_id);
   }
@@ -79,7 +87,8 @@ bool liveinventory_areextraslotspurchased_stub(
 bool bg_unlockablesisitempurchased_stub(
     game::eModes mode, const game::ControllerIndex_t controller_index,
     int item_index) {
-  if (dvar_cg_unlockall_purchases->current.value.enabled) {
+  if (dvar_cg_unlockall_purchases->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return true;
   }
 
@@ -90,7 +99,8 @@ bool bg_unlockablesisitempurchased_stub(
 bool bg_unlockablesisitemattachmentlocked_stub(
     game::eModes mode, const game::ControllerIndex_t controller_index,
     int item_index, int attachment_num) {
-  if (dvar_cg_unlockall_attachments->current.value.enabled) {
+  if (dvar_cg_unlockall_attachments->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return false;
   }
 
@@ -101,7 +111,8 @@ bool bg_unlockablesisitemattachmentlocked_stub(
 bool bg_unlockablesisattachmentslotlocked_stub(
     game::eModes mode, const game::ControllerIndex_t controller_index,
     int item_index, int attachment_slot_index) {
-  if (dvar_cg_unlockall_attachments->current.value.enabled) {
+  if (dvar_cg_unlockall_attachments->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return false;
   }
 
@@ -112,7 +123,8 @@ bool bg_unlockablesisattachmentslotlocked_stub(
 bool bg_unlockablesitemoptionlocked_stub(
     game::eModes mode, const game::ControllerIndex_t controllerIndex,
     int itemIndex, int optionIndex) {
-  if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled) {
+  if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return false;
   }
 
@@ -123,7 +135,8 @@ bool bg_unlockablesitemoptionlocked_stub(
 bool bg_unlockablesemblemorbackinglockedbychallenge_stub(
     game::eModes mode, const game::ControllerIndex_t controllerIndex,
     game::emblemChallengeLookup_t *challengeLookup, bool otherPlayer) {
-  if (dvar_cg_unlockall_calling_cards->current.value.enabled) {
+  if (dvar_cg_unlockall_calling_cards->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return false;
   }
 
@@ -134,7 +147,8 @@ bool bg_unlockablesemblemorbackinglockedbychallenge_stub(
 bool bg_unlockedgetchallengeunlockedforindex_stub(
     game::eModes mode, const game::ControllerIndex_t controllerIndex,
     unsigned __int16 index, int itemIndex) {
-  if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled) {
+  if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return true;
   }
 
@@ -145,7 +159,8 @@ bool bg_unlockedgetchallengeunlockedforindex_stub(
 bool bg_unlockablescharactercustomizationitemlocked_stub(
     game::eModes mode, const game::ControllerIndex_t controllerIndex,
     uint32_t characterIndex, game::CharacterItemType itemType, int itemIndex) {
-  if (dvar_cg_unlockall_specialists_outfits->current.value.enabled) {
+  if (dvar_cg_unlockall_specialists_outfits->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return false;
   }
 
@@ -182,7 +197,8 @@ bool liveentitlements_isentitlementactiveforcontroller_stub(
 
 int bg_unlockablesgetcustomclasscount_stub(
     game::eModes mode, const game::ControllerIndex_t controllerIndex) {
-  if (dvar_cg_unlockall_cac_slots->current.value.enabled) {
+  if (dvar_cg_unlockall_cac_slots->current.value.enabled &&
+      !block_campaign_unlocks(mode)) {
     return 10;
   }
 
@@ -192,15 +208,22 @@ int bg_unlockablesgetcustomclasscount_stub(
 
 bool gscr_isitempurchasedforclientnum_stub(
     [[maybe_unused]] unsigned int clientNum, [[maybe_unused]] int itemIndex) {
+  if (vanilla_mode_enabled()) {
+    return gscr_isitempurchasedforclientnum_hook.invoke<bool>(clientNum,
+                                                              itemIndex);
+  }
+
   return true;
 }
 }; // namespace
 
 struct component final : generic_component {
   void post_unpack() override {
-    gscr_isitempurchasedforclientnum_hook.create(
-        game::select(0x1415F1490, 0x140252A20),
-        gscr_isitempurchasedforclientnum_stub);
+    if (!vanilla_mode_enabled()) {
+      gscr_isitempurchasedforclientnum_hook.create(
+          game::select(0x1415F1490, 0x140252A20),
+          gscr_isitempurchasedforclientnum_stub);
+    }
 
     if (game::is_server()) {
       return;
@@ -235,7 +258,16 @@ struct component final : generic_component {
             "Cannot use unlockall while in-game. Return to main menu first.");
         return;
       }
-      // Enable all unlock dvars (mode-independent)
+
+      const auto mode = game::Com_SessionMode_GetMode();
+      if (vanilla_mode_enabled() && mode == game::eModes::MODE_CAMPAIGN) {
+        toast::error("Vanilla Mode",
+                     "Unlock All is disabled in Campaign while Vanilla Mode is active.");
+        printf("[Vanilla Mode] Unlock All is disabled in Campaign.\n");
+        return;
+      }
+
+      // Enable all unlock dvars (campaign effects are blocked in Vanilla Mode)
       game::Dvar_SetFromStringByName("cg_unlockall_loot", "1", true);
       game::Dvar_SetFromStringByName("cg_unlockall_purchases", "1", true);
       game::Dvar_SetFromStringByName("cg_unlockall_attachments", "1", true);
@@ -247,16 +279,17 @@ struct component final : generic_component {
       game::Dvar_SetFromStringByName("cg_unlockall_cac_slots", "1", true);
       game::Dvar_SetFromStringByName("ui_enableAllHeroes", "1", true);
 
-      // Set master prestige for all 3 modes (eModes: ZM=0, MP=1, CP=2)
+      // Set master prestige for ZM/MP. Vanilla Mode intentionally skips CP.
       game::Cbuf_AddText(0, "PrestigeStatsMaster 0\n"); // ZM
       game::Cbuf_AddText(0, "PrestigeStatsMaster 1\n"); // MP
-      game::Cbuf_AddText(0, "PrestigeStatsMaster 2\n"); // CP
+      if (!vanilla_mode_enabled()) {
+        game::Cbuf_AddText(0, "PrestigeStatsMaster 2\n"); // CP
+      }
 
       // statsetbyname only affects the current session mode
       game::Cbuf_AddText(0, "statsetbyname plevel 11\n");
       game::Cbuf_AddText(0, "statsetbyname hasprestiged 1\n");
 
-      const auto mode = game::Com_SessionMode_GetMode();
       const char *mode_name = "";
 
       if (mode == game::eModes::MODE_MULTIPLAYER) {
@@ -270,9 +303,11 @@ struct component final : generic_component {
         game::Cbuf_AddText(0, "statsetbyname paragon_rankxp 56800000\n");
         mode_name = " Zombies";
       } else if (mode == game::eModes::MODE_CAMPAIGN) {
-        game::Cbuf_AddText(0, "statsetbyname rank 19\n");
-        game::Cbuf_AddText(0, "statsetbyname paragon_rank 999\n");
-        game::Cbuf_AddText(0, "statsetbyname paragon_rankxp 0\n");
+        if (!vanilla_mode_enabled()) {
+          game::Cbuf_AddText(0, "statsetbyname rank 19\n");
+          game::Cbuf_AddText(0, "statsetbyname paragon_rank 999\n");
+          game::Cbuf_AddText(0, "statsetbyname paragon_rankxp 0\n");
+        }
         mode_name = " Campaign";
       }
 
@@ -290,12 +325,14 @@ struct component final : generic_component {
       game::Cbuf_AddText(0, "statsetbyname darkops_genesis_ee 1\n");
       game::Cbuf_AddText(0, "statsetbyname DARKOPS_GENESIS_SUPER_EE 1\n");
 
-      // Upload stats for all modes (eModes: ZM=0, MP=1, CP=2)
+      // Upload stats for allowed modes.
       game::Cbuf_AddText(0, "uploadstats 0\n"); // ZM
       game::Cbuf_AddText(0, "uploadstats 1\n"); // MP
-      game::Cbuf_AddText(0, "uploadstats 2\n"); // CP
+      if (!vanilla_mode_enabled()) {
+        game::Cbuf_AddText(0, "uploadstats 2\n"); // CP
+      }
 
-      printf("[Loot] Unlock All (%s): all items, master prestige (all modes), "
+      printf("[Loot] Unlock All (%s): all items, master prestige (allowed modes), "
              "max rank (%s), easter eggs\n",
              mode_name, mode_name);
       toast::success("Unlock All",
@@ -330,6 +367,18 @@ struct component final : generic_component {
 
     scheduler::once(
         []() {
+          if (vanilla_mode_enabled()) {
+            game::Dvar_SetFromStringByName("cg_unlockall_loot", "0", true);
+            game::Dvar_SetFromStringByName("cg_unlockall_purchases", "0", true);
+            game::Dvar_SetFromStringByName("cg_unlockall_attachments", "0", true);
+            game::Dvar_SetFromStringByName("cg_unlockall_camos_and_reticles", "0", true);
+            game::Dvar_SetFromStringByName("cg_unlockall_calling_cards", "0", true);
+            game::Dvar_SetFromStringByName("cg_unlockall_specialists_outfits", "0", true);
+            game::Dvar_SetFromStringByName("cg_unlockall_cac_slots", "0", true);
+            game::Dvar_SetFromStringByName("ui_enableAllHeroes", "0", true);
+            return;
+          }
+
           if (dvar_cg_unlockall_loot->current.value.enabled) {
             game::Dvar_SetFromStringByName("ui_enableAllHeroes", "1", true);
           }
