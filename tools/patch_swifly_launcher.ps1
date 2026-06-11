@@ -29,22 +29,23 @@ function Apply-SwiflyBranding($Content) {
     $c = $c.Replace($m, 'Swifly BOIII')
   }
 
-  # Product/title branding.
-  $brandReplacements = @{
-    'EZZ BOIII' = 'Swifly BOIII'
-    'Ezz BOIII' = 'Swifly BOIII'
-    'ezz BOIII' = 'Swifly BOIII'
-    'EZZ Boiii' = 'Swifly BOIII'
-    'Ezz Boiii' = 'Swifly BOIII'
-    'EZZ Client' = 'Swifly Client'
-    'Ezz Client' = 'Swifly Client'
-    'EZZ' = 'SWIFLY'
-    'Ezz' = 'Swifly'
-    'ezz' = 'swifly'
-  }
+  # Product/title branding. Use ordered pairs instead of a hashtable because
+  # PowerShell hashtable keys are case-insensitive by default.
+  $brandReplacements = @(
+    @('EZZ BOIII', 'Swifly BOIII'),
+    @('Ezz BOIII', 'Swifly BOIII'),
+    @('ezz BOIII', 'Swifly BOIII'),
+    @('EZZ Boiii', 'Swifly BOIII'),
+    @('Ezz Boiii', 'Swifly BOIII'),
+    @('EZZ Client', 'Swifly Client'),
+    @('Ezz Client', 'Swifly Client'),
+    @('EZZ', 'SWIFLY'),
+    @('Ezz', 'Swifly'),
+    @('ezz', 'swifly')
+  )
 
-  foreach ($key in $brandReplacements.Keys) {
-    $c = $c.Replace($key, $brandReplacements[$key])
+  foreach ($pair in $brandReplacements) {
+    $c = $c.Replace($pair[0], $pair[1])
   }
 
   # Normalize visible product names after broad replacements.
@@ -58,7 +59,7 @@ function Apply-SwiflyBranding($Content) {
 }
 
 # Broad text pass over our editable source/data files. Avoid third-party deps and generated output.
-$roots = @('data', 'src', 'tools')
+$roots = @('data', 'src')
 $extensions = @(
   '.bat', '.cfg', '.c', '.cc', '.cpp', '.css', '.h', '.hpp', '.html', '.ini',
   '.js', '.json', '.lua', '.md', '.ps1', '.rc', '.txt', '.xml', '.yml', '.yaml'
@@ -71,9 +72,9 @@ foreach ($root in $roots) {
 
   Get-ChildItem $root -Recurse -File | Where-Object {
     $extensions -contains $_.Extension.ToLowerInvariant() -and
-    $_.FullName -notmatch '\\build\\' -and
-    $_.FullName -notmatch '\\deps\\' -and
-    $_.FullName -notmatch '\\third_party\\'
+    $_.FullName -notmatch '\build\' -and
+    $_.FullName -notmatch '\deps\' -and
+    $_.FullName -notmatch '\third_party\'
   } | ForEach-Object {
     $path = $_.FullName
     $original = Get-Content $path -Raw
