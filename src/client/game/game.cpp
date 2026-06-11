@@ -21,6 +21,12 @@ const utils::nt::library &get_host_library() {
   return host_library;
 }
 
+bool is_marked_swifly_data_folder(const std::filesystem::path &data_path) {
+  std::error_code ec{};
+  return std::filesystem::exists(data_path / ".swifly-data", ec) &&
+         std::filesystem::exists(data_path / "launcher" / "main.html", ec);
+}
+
 void seed_appdata_from_local_data_folder(const std::filesystem::path &appdata) {
   std::error_code ec{};
 
@@ -28,7 +34,8 @@ void seed_appdata_from_local_data_folder(const std::filesystem::path &appdata) {
   const auto target_data = appdata / "data";
 
   if (!std::filesystem::exists(source_data, ec) ||
-      !std::filesystem::is_directory(source_data, ec)) {
+      !std::filesystem::is_directory(source_data, ec) ||
+      !is_marked_swifly_data_folder(source_data)) {
     return;
   }
 
@@ -90,7 +97,6 @@ std::filesystem::path get_appdata_path() {
 
     auto _ = utils::finally([&path] { CoTaskMemFree(path); });
 
-    // Keep using the BOIII cache folder so existing first-launch data is found.
     const auto result = std::filesystem::path(path) / L"boiii";
     seed_appdata_from_local_data_folder(result);
     return result;
