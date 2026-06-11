@@ -70,8 +70,8 @@ std::filesystem::path get_appdata_path() {
 
     auto _ = utils::finally([&path] { CoTaskMemFree(path); });
 
-    // Keep Swifly data separate from old BOIII updater/cache files.
-    return std::filesystem::path(path) / L"swiflyboiii";
+    // Keep using the BOIII cache folder so existing first-launch data is found.
+    return std::filesystem::path(path) / L"boiii";
   }();
 
   return appdata_path;
