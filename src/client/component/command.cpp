@@ -2,6 +2,7 @@
 #include "loader/component_loader.hpp"
 
 #include "command.hpp"
+#include "network.hpp"
 #include <utils/hook.hpp>
 #include <utils/string.hpp>
 #include <utils/memory.hpp>
@@ -15,6 +16,13 @@
 namespace command {
 namespace {
 constexpr auto SWIFLY_SERVERS_API = "https://swifly-servers.onrender.com/api/servers";
+
+struct swifly_server_target {
+  std::string address{};
+  std::string map{"mp_havoc"};
+  std::string gametype{"tdm"};
+  int max_players{18};
+};
 
 std::unordered_map<std::string, command_param_function> &get_command_map() {
   static std::unordered_map<std::string, command_param_function> command_map{};
@@ -97,7 +105,7 @@ bool get_bool_member(const rapidjson::Value &object, const char *key,
   return fallback;
 }
 
-std::optional<std::string> fetch_swifly_join_address() {
+std::optional<swifly_server_target> fetch_swifly_server_target() {
   const auto data = utils::http::get_data(
       SWIFLY_SERVERS_API,
       { {"accept", "application/json"}, {"cache-control", "no-cache"} }, {}, 1);
@@ -115,26 +123,37 @@ std::optional<std::string> fetch_swifly_join_address() {
       continue;
     }
 
-    auto address = get_string_member(server, "connectAddr");
+    swifly_server_target target{};
+    target.address = get_string_member(server, "connectAddr");
     const auto host = get_string_member(server, "address");
     const auto port = get_int_member(server, "port", 0);
     const auto players = get_int_member(server, "players", 0);
-    const auto max_players = get_int_member(server, "maxPlayers", 1);
+    target.max_players = get_int_member(server, "maxPlayers", 18);
     const auto passworded = get_bool_member(server, "passworded", false);
 
-    if (address.empty() && !host.empty() && port > 0) {
-      address = host + ":" + std::to_string(port);
+    const auto map = get_string_member(server, "map");
+    if (!map.empty()) {
+      target.map = map;
     }
 
-    if (address.empty() || passworded || players >= max_players) {
+    const auto gametype = get_string_member(server, "gametype");
+    if (!gametype.empty()) {
+      target.gametype = gametype;
+    }
+
+    if (target.address.empty() && !host.empty() && port > 0) {
+      target.address = host + ":" + std::to_string(port);
+    }
+
+    if (target.address.empty() || passworded || players >= target.max_players) {
       continue;
     }
 
-    if (!is_safe_join_address(address)) {
+    if (!is_safe_join_address(target.address)) {
       continue;
     }
 
-    return address;
+    return target;
   }
 
   return std::nullopt;
@@ -143,16 +162,32 @@ std::optional<std::string> fetch_swifly_join_address() {
 void join_swifly_server() {
   game::Com_Printf(0, 0, "[Swifly] Fetching server list...\n");
 
-  const auto address = fetch_swifly_join_address();
-  if (!address) {
+  const auto target = fetch_swifly_server_target();
+  if (!target) {
     game::Com_Printf(0, 0,
                      "[Swifly] No available Swifly servers were found.\n");
     return;
   }
 
-  game::Com_Printf(0, 0, "[Swifly] Joining %s...\n", address->data());
-  const auto command = "connect " + *address + "\n";
-  game::Cbuf_AddText(0, command.data());
+  auto address = network::address_from_string(target->address);
+  if (address.type == game::NA_BAD) {
+    game::Com_Printf(0, 0, "[Swifly] Bad server address: %s\n",
+                     target->address.data());
+    return;
+  }
+
+  game::Com_Printf(0, 0, "[Swifly] Joining %s...\n",
+                   target->address.data());
+
+  game::Com_SessionMode_SetNetworkMode(game::MODE_NETWORK_ONLINE);
+  game::Com_SessionMode_SetMode(game::MODE_MULTIPLAYER);
+  game::Com_SessionMode_SetGameMode(game::MODE_GAME_MATCHMAKING_MANUAL);
+  game::Com_GametypeSettings_SetGametype(target->gametype.data(), true);
+
+  game::XSESSION_INFO session_info{};
+  game::CL_ConnectFromLobby(game::CONTROLLER_INDEX_FIRST, &session_info,
+                            &address, target->max_players, 0,
+                            target->map.data(), target->gametype.data(), "");
 }
 
 void execute_custom_command() {
